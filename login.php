@@ -1,33 +1,37 @@
 <?php
 session_start();
 include 'conn.php';
-
+if(isset($_SESSION['auth'])){
+  header('location:e-com.php');
+}
 if(isset($_POST['done'])){
 
     $username  =  $_POST['name'];
     $password =  $_POST['password1'];
     
-    $sql = "SELECT name   FROM register WHERE name = '$username' and password = '$password'";
+    $sql = "SELECT name   FROM login_authetication WHERE name = '$username' and password = '$password'";
+    $sql1 = "SELECT id FROM login_authetication WHERE name='$username'";
     $result = mysqli_query($conn,$sql);
     $check = mysqli_fetch_array($result);
-    // echo $check;
-    if(isset($check)){
-        
-        header("location:e-commerce.php");
-        $_SESSION['user']=$username;
-        // echo $sql;
+    $result1 = mysqli_query($conn,$sql1);
+    $check1 = mysqli_fetch_array($result1);
+    
+
+    if(isset($check)){ 
+      $_SESSION['id']=$check1['id'];
+      $_SESSION['user']=$username;    
+      $_SESSION['auth']=True;
+      $id = $_SESSION['id'];
+      $user = $_SESSION['user'];
+      header("location:e-com.php");
     }else{
         
     }
-
-
 
 }
 
 
 ?>
-
-
 
 
 <!DOCTYPE html>

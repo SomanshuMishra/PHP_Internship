@@ -1,13 +1,14 @@
 <?php
-$serverName = "localhost";
+
+$serverName = "localhost:3307";
 $userName = "root";
-$password = "12345";
-$dbName = "php_mysql";
+$password = "";
+$dbName = "php_mysql";  
 
 // try {
-//     $con = new PDO("mysql:host=$serverName;dbname=$dbName",$userName,$password);
+//     $conn = new PDO("mysql:host=$serverName;dbname=$dbName",$userName,$password);
 
-//     $con ->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+//     $conn ->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 //     echo " Connection Success"; 
 // }
 // catch(PDOException $e){
@@ -21,7 +22,10 @@ $dbName = "php_mysql";
 //   echo "Connected successfully";
   
 
-$conn = mysqli_connect('localhost','root','12345');
-mysqli_select_db($conn,$dbName);
+$conn = mysqli_connect('localhost:3307','root','','php_mysql');
+mysqli_select_db($conn,'php_mysql');
+// if ($conn){
+//     echo "Connected";
+// }
 
-?>
+// ?>

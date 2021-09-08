@@ -1,5 +1,8 @@
 <?php
-session_start()
+session_start();
+if(!isset($_SESSION['auth'])){
+  header('location:login.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -242,7 +245,7 @@ session_start()
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../layout/top-nav.html" class="nav-link">
+                <a href="top-nav.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Top Navigation</p>
                 </a>
