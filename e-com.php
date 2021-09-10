@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+include 'conn.php';
 if(!isset($_SESSION['auth'])){
   header('location:login.php');
 }
@@ -8,8 +9,37 @@ if(isset($_POST['auth'])){
   unset($_SESSION['auth']);
   header("Location:login.php");
 
-
 }
+if(isset($_POST['search_submit'])){
+  // echo "YES";
+  $search = $_POST['search'];
+  // echo $search;
+  header("Location:search.php?search_item='$search';");
+}
+
+
+  // $sql = "SELECT id FROM crud1 WHERE prod_name LIKE '$serach'";
+  // $res = mysqli_query($conn,$sql);
+  // $row = mysqli_fetch_array($res);
+  // echo $new;
+  // if($new){
+  //   // while($new){
+  //     echo $new['id'];
+  //   // }
+    
+  //   // header("Location:search.php?id=$new['id'];");
+
+  // }else{
+  //   echo "No Products";
+  // }
+
+  // while($row = mysqli_fetch_array($res)){
+  //   echo "Inside While";
+  //   echo $row['id'];
+    // header("Location:search.php?id=$row;");
+  // }
+// }
+
 ?>
 
 
@@ -27,7 +57,7 @@ if(isset($_POST['auth'])){
   </head>
   <body>
     <!-- <h1>Hello, world!</h1> -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +80,6 @@ if(isset($_POST['auth'])){
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <form action="" method="post">
-            <!-- <li type="submit" name='auth' >Logout</li> -->
           <button type="submit" name='auth'>Logouttt</button> 
             </form>
 
@@ -58,6 +87,10 @@ if(isset($_POST['auth'])){
         </li>
         
       </ul>
+      <form class="d-flex" method="post">
+        <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="search">
+        <input type="submit" name="search_submit" value="Search"> 
+      </form>
       <!-- <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -68,7 +101,7 @@ if(isset($_POST['auth'])){
 
 <h2 align ='center'>E-com Home</h2>
     <!-- Optional JavaScript; choose one of the two! -->
-
+    <h3><? php echo $_SESSION['email'];  ?></h3>
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 

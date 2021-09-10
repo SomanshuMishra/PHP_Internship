@@ -15,14 +15,14 @@ if (isset($_POST['done'])){
     $password2 = $_POST['password2'];
     $phone = $_POST['phone'];
     if($password1==$password2){
-        $checksql = "Select  name from login_authetication where name='$username' or email='$email'" ;
+        $checksql = "Select  name from login_authentication where name='$username' or email='$email'" ;
         $checkresult = mysqli_query($conn,$checksql);
         $finalcheck = mysqli_fetch_array($checkresult);
         if(isset($finalcheck)){
             echo "Username and Email already registered";
         }
         else{
-            $q = "INSERT INTO  login_authetication(name,email,phone,password)VALUES('$username','$email','$phone','$password1');";
+            $q = "INSERT INTO  login_authentication(name,email,phone,password)VALUES('$username','$email','$phone','$password1');";
             $query = mysqli_query($conn,$q);
             header("location:login.php");
             

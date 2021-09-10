@@ -5,10 +5,8 @@ include "conn.php";
 if(isset($_POST['auth'])){
   unset($_SESSION['auth']);
   header("Location:login.php");
-
-
 }
-if (isset($_POST['upload']) && isset($_FILES['image'])){
+if (isset($_POST['upload'])){
   include "conn.php";
   $id = $_SESSION['id'];
   $img_name = $_FILES['image']['name'];
@@ -17,6 +15,7 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
   $error = $_FILES['image']['error'];
   $prod_name = $_POST['prod_name'];
   $prod_desc = $_POST['prod_desc'];
+  $price = $_POST['price'];
   if ($error===0){
     if ($img_size > 6000000){
       $em = "Sorry , your file   is too large";
@@ -35,7 +34,7 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
 
         // Insert Into Database
 
-        $sql = " INSERT INTO crud(prod_id ,description,image_address,prod_name) VALUES('$id','$prod_desc','$new_img_name','$prod_name')"; 
+        $sql = " INSERT INTO crud1(prod_id ,description,image_address,prod_name,price) VALUES('$id','$prod_desc','$new_img_name','$prod_name','$price')"; 
         mysqli_query($conn,$sql);
         // echo $sql;
       }
@@ -52,12 +51,13 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
 }else{
   // header("Location:e-commerce.php");
 }
-
+if(isset($_POST['search_submit'])){
+  // echo "YES";
+  $search = $_POST['search'];
+  // echo $search;
+  header("Location:search.php?search_item='$search';");
+}
 ?>
-
-
-
-
 
 <!doctype html>
 <html lang="en">
@@ -70,12 +70,13 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Crud!</title>
+    <script src="https://cdn.ckeditor.com/4.16.2/basic/ckeditor.js"></script>
     <style>
 
     #uploadbutton{
-      margin-left: 165px;
-      margin-top: 200px;
-      font-size: 70px;
+      margin-left: 655px;
+      margin-top: 80px;
+      font-size: 50px;
       border-radius: 20px;
     }
     </style>
@@ -83,7 +84,7 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
   <body>
     
     <!-- <h1>Hello, world!</h1> -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,6 +115,10 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
         </li>
         
       </ul>
+      <form class="d-flex" method="post">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+        <input type="submit" name="search_submit" value="Search"> 
+      </form>
       <!-- <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -132,7 +137,7 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
   Upload 
 </button>
 
-<button type="button" class="btn btn-success
+<!-- <button type="button" class="btn btn-success
 " data-bs-toggle="modal" data-bs-target="#exampleModal" id="uploadbutton" >
   Delete 
 </button>
@@ -140,7 +145,7 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
 <button type="button" class="btn btn-success
 " data-bs-toggle="modal" data-bs-target="#exampleModal" id="uploadbutton" >
   Update Desc 
-</button>
+</button> -->
 
 <!---------------------------  Upload Modal Start ---------------------->
 <div class="modal fade" id="upload" tabindex="-1" aria-labelledby="upload" aria-hidden="true" >
@@ -155,9 +160,13 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
       <div class="mb-3">
   <label for="name" class="form-label">Product Name</label>
   <input type="text" class="form-control" id="name" placeholder="Product Name" name="prod_name" required>
+  <label for="price" class="form-label">Price</label>
+  <input type="number" class="form-control" id="price" placeholder="Enter Price" name="price" required>
+  
+  
+
   <label for="prod_desc" class="form-label">Product Description</label>
-  <!-- <input type="textarea" class="form-control" id="prod_desc" placeholder="Product Description" name="prod_desc" required> -->
-  <textarea name="prod_desc" id="prod_desc" cols="60" rows="4" placeholder="Product Description"></textarea>
+  <textarea name="prod_desc" id="prod_desc" cols="60" rows="4" placeholder="Product Description" class="form-control"></textarea>
 </div>
     <label>Select Image Fileee:</label>
     <input type="file" name="image" required>
@@ -183,7 +192,10 @@ if (isset($_POST['upload']) && isset($_FILES['image'])){
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
 
+      CKEDITOR.replace('prod_desc');
+    </script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

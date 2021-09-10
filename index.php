@@ -12,7 +12,7 @@ if(isset($_GET['id'])){
     // echo $_GET['id'];
     $id = $_GET['id'];
 
-    $sql = "SELECT * from  crud WHERE id= '$id' ORDER BY id DESC ";
+    $sql = "SELECT * from  crud1 WHERE id= '$id' ORDER BY id DESC ";
     $res = mysqli_query($conn,$sql);
     if($res){
         $file = mysqli_fetch_assoc($res);
@@ -31,12 +31,54 @@ if(isset($_GET['id'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <style>
+        html,body{
+            overflow-x: hidden;
+        }
+    .header img {
+  float: left;
+  width: 30%;
+  height: auto;
+  background: #555;
+  
+}
+
+.header h1 {
+  position: relative;
+  top: 40px;
+  left: 140px;
+}
+.header h3{
+    position: relative;
+    top: 100px;
+    left: 0px;
+    right: 100px;
+    font-weight:200;
+}
+.conatiner1{
+    float: right;
+}
+</style>
 </head>
 <body>
-    <h1> Hello <?php echo $_SESSION['user']; ?></h1>
     
-    <img src="uploads/<?php echo $file['image_address']; ?>"width=20% height=100% alt="Nopes" >
+    <div class="header">
+    <img src="uploads/<?php echo $file['image_address']; ?>"width=30% height=100% alt="Can't Load Image..." >
 
+    <h1>
+        <?php  echo $file['prod_name'];  ?>
+    </h1>
+
+    
+    <h3>
+<?php echo $file['description']; ?>
+    </h3>
+
+
+</div>
+<div class="container1">
+<button class="btn btn-success">BUY</button> 
+</div>
 
 
 

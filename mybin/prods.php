@@ -10,15 +10,10 @@ if(isset($_POST['auth'])){
 }
 if(isset($_GET['id'])){
   $del_id=$_GET['id'];
-  $sql = "DELETE FROM crud1 where id = $del_id";
+  $sql = "DELETE FROM crud where id = $del_id";
   $res = mysqli_query($conn,$sql);
 }
-if(isset($_POST['search_submit'])){
-  // echo "YES";
-  $search = $_POST['search'];
-  // echo $search;
-  header("Location:search.php?search_item='$search';");
-}
+
 
 
 
@@ -63,7 +58,7 @@ if(isset($_POST['search_submit'])){
   </head>
   <body>
     <!-- <h1>Hello, world!</h1> -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +85,6 @@ if(isset($_POST['search_submit'])){
             <!-- <li type="submit" name='auth' >Logout</li> -->
           <button type="submit" name='auth'>Logouttt</button> 
             </form>
-
             <!-- <input type="submit" name='auth' value="Logout"> -->
             
             
@@ -98,10 +92,6 @@ if(isset($_POST['search_submit'])){
         </li>
         
       </ul>
-      <form class="d-flex" method="post">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-        <input type="submit" name="search_submit" value="Search"> 
-      </form>
       <!-- <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -114,7 +104,7 @@ if(isset($_POST['search_submit'])){
 <?php
 
 $result_per_page=3;
-$sql1 = "SELECT * from crud1 WHERE prod_id= '$prod_id' ";
+$sql1 = "SELECT * from crud WHERE prod_id= '$prod_id' ";
 $res1 = mysqli_query($conn,$sql1);
 $number_of_results = mysqli_num_rows($res1);
 $number_of_pages = ceil($number_of_results/$result_per_page);
@@ -127,7 +117,7 @@ if(!isset($_GET['page'])){
 
 $this_page_first_result = ($page-1)* $result_per_page;
 
-$sql2 = "SELECT * from crud1 WHERE prod_id= '$prod_id' LIMIT ".$this_page_first_result.','.$result_per_page;
+$sql2 = "SELECT * from crud WHERE prod_id= '$prod_id' LIMIT ".$this_page_first_result.','.$result_per_page;
 $res2 = mysqli_query($conn,$sql2);?>
 
 
@@ -135,7 +125,7 @@ $res2 = mysqli_query($conn,$sql2);?>
 <?php for($page=1;$page<=$number_of_pages;$page++){?>
 <nav aria-label="...">
   <ul class="pagination pagination-lg">
-    <li class="page-item" aria-current="page">
+    <li class="page-item active" aria-current="page">
       <span class="page-link " ><?php echo '<a href="products.php?page='.$page.'">'.$page.'</a>'; ?></span>
     </li>
   </ul>

@@ -44,7 +44,7 @@ if(isset($_POST['done'])){
     $mail->Port = 587;                                    // TCP port to connect to
     
     $mail->setFrom(EMAIL, 'PHP INTERNSHIP');
-    $mail->addAddress($_SESSION['email']);     // Add a recipient
+    $mail->addAddress([$_SESSION['email']]);     // Add a recipient
     // $mail->addAddress('ellen@example.com');               // Name is optional
     $mail->addReplyTo(EMAIL);
      // Add attachments
