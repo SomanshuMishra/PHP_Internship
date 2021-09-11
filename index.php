@@ -6,6 +6,8 @@ if(isset($_POST['auth'])){
   
   
   }
+$id = $_GET['id'];
+// echo $id;
 include "base.php";
 include "conn.php";
 if(isset($_GET['id'])){
@@ -18,10 +20,38 @@ if(isset($_GET['id'])){
         $file = mysqli_fetch_assoc($res);
         // echo var_dump($file);
     }
+}   
+
+if(isset($_POST['pdf'])){
+    
+        ob_start();
+        
+        
+        $sql = "SELECT * from  crud1 WHERE id= '$id' ORDER BY id DESC ";
+        $res = mysqli_query($conn,$sql);
+        if($res){
+            $file = mysqli_fetch_assoc($res);
+            // echo var_dump($file);
+        }
+        $html ='<table>';
+        $html.='<tr><td>ID</td><td>Product Name</td><td>Price</td></tr>';
+        
+        $html.='<tr><td>'.$file['id'].'</td><td>'.$file['prod_name'].'</td><td>'.$file['price'].'</td></tr>';
+        $html.='</table>';
+        ob_end_flush();
+        require('vendor/autoload.php');
+        $mpdf = new \Mpdf\Mpdf(['allow_output_buffering' => true]);
+        $mpdf->debug = true;
+        $mpdf->WriteHTML($html);
+        $files=time().$file['prod_name'].'.pdf';
+        $mpdf ->output($files,'F');
+        // header("location:pdf.php"); 
 
 
 
 }   
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,11 +106,11 @@ if(isset($_GET['id'])){
 
 
 </div>
-<div class="container1">
-<button class="btn btn-success">BUY</button> 
-</div>
 
-
+<form action="" method="post">
+<!-- <input type="button" name='pdf' value="PDF"> -->
+<button type="submit" name="pdf">PDF Button</button>
+</form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 

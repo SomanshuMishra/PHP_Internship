@@ -16,24 +16,24 @@ if(isset($_POST['done'])){
     $check = mysqli_fetch_array($result);
     $result1 = mysqli_query($conn,$sql1);
     $check1 = mysqli_fetch_array($result1);
-    $result2 = mysqli_query($conn,$result2);
+    $result2 = mysqli_query($conn,$sql2);
     $check2 = mysqli_fetch_array($result2);
 
     if(isset($check)){ 
       $_SESSION['id']=$check1['id'];
       $_SESSION['user']=$username;    
       $_SESSION['auth']=True;
-      $_SESSION['email']=$check2['email'];
+      $email=$check2['email'];
       $id = $_SESSION['id'];
       $user = $_SESSION['user'];
-
+      
     //   PHP MAILER START
 
     require 'PHPMailerAutoload.php';
     require 'credential.php';
     $mail = new PHPMailer;
     
-    $mail->SMTPDebug = 4;                               // Enable verbose debug output
+    // $mail->SMTPDebug = 2;                               // Enable verbose debug output
     
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
@@ -44,7 +44,7 @@ if(isset($_POST['done'])){
     $mail->Port = 587;                                    // TCP port to connect to
     
     $mail->setFrom(EMAIL, 'PHP INTERNSHIP');
-    $mail->addAddress($_SESSION['email']);     // Add a recipient
+    $mail->addAddress($email);     // Add a recipient
     // $mail->addAddress('ellen@example.com');               // Name is optional
     $mail->addReplyTo(EMAIL);
      // Add attachments
@@ -64,7 +64,7 @@ if(isset($_POST['done'])){
 
 
     // PHP MAILER END
-
+      
       header("location:e-com.php");
     }else{
         
